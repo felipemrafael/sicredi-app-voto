@@ -1,0 +1,50 @@
+version: '3.6'
+
+services:
+  postgres:
+    image: postgres:14-alpine
+    container_name: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./db/sicredi:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=sicredi
+    hostname: postgres
+
+
+  zookeeper:
+    image: wurstmeister/zookeeper
+    container_name: zookeeper
+    ports:
+      - "2181:2181"
+
+  kafka:
+    image: wurstmeister/kafka
+    container_name: kafka
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_ADVERTISED_HOST_NAME: localhost
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+
+
+  pauta-api:
+    image: desafio-sicredi-pauta:latest
+    build:
+      dockerfile: ./Dockerfile
+    container_name: desafio-sicredi
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/sicredi
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=create-drop
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+      - kafka
+
+
