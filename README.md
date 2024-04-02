@@ -1,5 +1,12 @@
 ### APP Votacao Pauta 
 
+## Frameworks utilizados
+- #### docker-compose
+- #### Java11
+- #### Spring-boot
+- #### JUnit
+- #### Postgresql
+- #### Kafka
 
 ## Pré requisitos
 - #### docker-compose
@@ -64,12 +71,10 @@ GET http://localhost:8080/v1/resultados/{id}
 ``` 
 
 #### Tarefa Bônus 1 - Integração com sistemas externos
-    Foi implementado um servico 'CpfService' no qual realiza a integração com o serviço externo;
+    Foi implementado um servico 'CpfValidador' onde faz a integração e validação do cpf com o serviço externo;
 
 #### Tarefa Bônus 2 - Mensageria e filas
-    Foi utilizado o Kafka para mensageria:
-    O producer ficou responsável por enviar os resultados das votações;
-    O consumer ficou responsável por escutar os resultados das votações e apenas logar em console os resultados.
+    Foi utilizado o Kafka para mensageria:  
 
 #### Tarefa Bônus 4 - Versionamento da API
     Há varias formas de fazer o versionamento, para este teste foi escolhido pelo header, onde as apis foram construidas com o Header Api-Version = 1 .
